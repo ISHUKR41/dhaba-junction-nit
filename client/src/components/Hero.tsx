@@ -17,13 +17,13 @@ export default function Hero() {
       
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4 sm:px-8">
         <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-4 tracking-tight">
-          Maison Éphémère
+          Dhaba Junction
         </h1>
         <p className="text-white/90 text-lg sm:text-xl md:text-2xl mb-2 font-light tracking-wide uppercase" style={{ letterSpacing: '0.15em' }}>
-          A Culinary Journey
+          Authentic North Indian Cuisine
         </p>
         <p className="text-white/80 text-base sm:text-lg mb-8 max-w-md">
-          December 15-30, 2025
+          Faridabad's Favorite Family Dhaba Since Years
         </p>
         <Button 
           size="lg"
@@ -31,7 +31,7 @@ export default function Hero() {
           onClick={handleReserve}
           data-testid="button-reserve-hero"
         >
-          Reserve Your Table
+          View Menu & Order Now
         </Button>
       </div>
     </div>

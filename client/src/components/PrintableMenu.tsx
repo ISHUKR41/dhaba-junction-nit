@@ -10,14 +10,14 @@ import charcuterieImage from "@assets/generated_images/Charcuterie_board_f42f716
 import platingImage from "@assets/generated_images/Plating_detail_close-up_f7c49b07.png";
 
 const dishImages = [
-  { id: 1, image: scallopsImage, name: "Pan-Seared Scallops" },
-  { id: 2, image: pastaImage, name: "Truffle Tagliatelle" },
-  { id: 3, image: lambImage, name: "Herb-Crusted Lamb Rack" },
-  { id: 4, image: dessertImage, name: "Chocolate Lava Cake" },
-  { id: 5, image: saladImage, name: "Burrata & Heirloom Tomatoes" },
-  { id: 6, image: salmonImage, name: "Atlantic Salmon" },
-  { id: 7, image: charcuterieImage, name: "Artisan Charcuterie" },
-  { id: 8, image: platingImage, name: "Chef's Special" }
+  { id: 1, image: lambImage, name: "Dal Makhani" },
+  { id: 2, image: scallopsImage, name: "Paneer Butter Masala" },
+  { id: 3, image: pastaImage, name: "Kadhai Paneer" },
+  { id: 4, image: dessertImage, name: "Malai Kofta" },
+  { id: 5, image: saladImage, name: "Tandoori Chaap" },
+  { id: 6, image: salmonImage, name: "Veg Biryani" },
+  { id: 7, image: charcuterieImage, name: "Tandoori Platter" },
+  { id: 8, image: platingImage, name: "Fresh Naan" }
 ];
 
 export default function PrintableMenu() {
@@ -31,10 +31,10 @@ export default function PrintableMenu() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="font-serif text-4xl sm:text-5xl mb-4 text-foreground">
-            Printable Menu
+            View Complete Menu
           </h2>
           <p className="text-muted-foreground mb-8">
-            Download our complete menu with beautiful dish photography
+            Download or print our full menu with all dishes and prices
           </p>
           <Button 
             size="lg"
@@ -43,7 +43,7 @@ export default function PrintableMenu() {
             className="gap-2"
           >
             <Download className="w-5 h-5" />
-            Download Menu PDF
+            Print Menu
           </Button>
         </div>
         
@@ -63,9 +63,9 @@ export default function PrintableMenu() {
         </div>
         
         <div className="mt-12 text-center text-sm text-muted-foreground print:block hidden">
-          <p className="font-serif text-2xl mb-2">Maison Éphémère</p>
-          <p>December 15-30, 2025 | 142 Market Street, Downtown Arts District</p>
-          <p>Reservations: (555) 123-4567 | contact@maisonephemere.com</p>
+          <p className="font-serif text-2xl mb-2">Dhaba Junction</p>
+          <p>A-8, Sector-11, Near Bata Flyover, Mathura Road, Faridabad 121001</p>
+          <p>Open Daily: 11:00 AM - 1:30 AM | Phone: +91 98118 24555</p>
         </div>
       </div>
     </section>

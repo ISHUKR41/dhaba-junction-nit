@@ -9,51 +9,51 @@ import salmonImage from "@assets/generated_images/Salmon_fillet_entree_bed9fba7.
 const dishes = [
   {
     id: 1,
-    name: "Pan-Seared Scallops",
-    description: "Perfectly caramelized scallops with microgreens and citrus beurre blanc",
-    price: "$28",
-    image: scallopsImage,
-    category: "starter"
-  },
-  {
-    id: 2,
-    name: "Truffle Tagliatelle",
-    description: "Handmade pasta with black truffle cream sauce and aged parmesan",
-    price: "$34",
-    image: pastaImage,
-    category: "main"
-  },
-  {
-    id: 3,
-    name: "Herb-Crusted Lamb Rack",
-    description: "New Zealand lamb with rosemary jus and seasonal vegetables",
-    price: "$42",
+    name: "Dal Makhani",
+    description: "Creamy black lentils slow-cooked with butter, tomatoes and aromatic spices",
+    price: "₹170",
     image: lambImage,
     category: "main"
   },
   {
+    id: 2,
+    name: "Paneer Butter Masala",
+    description: "Cottage cheese simmered in a velvety tomato gravy with butter and spices",
+    price: "₹219",
+    image: scallopsImage,
+    category: "main"
+  },
+  {
+    id: 3,
+    name: "Kadhai Paneer",
+    description: "Cottage cheese cooked with bell peppers, onions and aromatic kadhai masala",
+    price: "₹219",
+    image: pastaImage,
+    category: "main"
+  },
+  {
     id: 4,
-    name: "Chocolate Lava Cake",
-    description: "Warm chocolate cake with vanilla bean ice cream and gold leaf",
-    price: "$14",
+    name: "Malai Kofta",
+    description: "Deep-fried cottage cheese dumplings in rich, creamy gravy",
+    price: "₹229",
     image: dessertImage,
-    category: "dessert"
+    category: "main"
   },
   {
     id: 5,
-    name: "Burrata & Heirloom Tomatoes",
-    description: "Fresh burrata with basil oil and aged balsamic reduction",
-    price: "$18",
+    name: "Tandoori Masala Chaap",
+    description: "Soya chaap marinated in tandoori spices and grilled to perfection",
+    price: "₹340",
     image: saladImage,
     category: "starter"
   },
   {
     id: 6,
-    name: "Atlantic Salmon",
-    description: "Pan-seared salmon with lemon butter sauce and asparagus",
-    price: "$36",
+    name: "Veg Biryani",
+    description: "Fragrant basmati rice layered with mixed vegetables and aromatic spices",
+    price: "₹280",
     image: salmonImage,
-    category: "main"
+    category: "rice"
   }
 ];
 
@@ -65,7 +65,7 @@ export default function FeaturedDishes() {
           Signature Dishes
         </h2>
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Each dish is crafted with passion and precision, showcasing the finest seasonal ingredients
+          Authentic North Indian flavors prepared fresh daily with traditional recipes
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

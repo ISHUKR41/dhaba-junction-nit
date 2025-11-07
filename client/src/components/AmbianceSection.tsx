@@ -8,34 +8,34 @@ export default function AmbianceSection() {
           <div className="order-2 lg:order-1">
             <img 
               src={ambianceImage} 
-              alt="Intimate bistro dining atmosphere"
+              alt="Dhaba Junction dining atmosphere"
               className="w-full h-full object-cover rounded-lg shadow-lg"
             />
           </div>
           
           <div className="order-1 lg:order-2 space-y-6">
             <h2 className="font-serif text-4xl sm:text-5xl text-foreground">
-              An Atmosphere of Intimacy
+              Family Dining at Its Best
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Step into a world where every detail has been thoughtfully curated. Our intimate 
-              space features warm candlelight, exposed brick walls, and an open kitchen where 
-              you can watch our talented chefs at work.
+              At Dhaba Junction, we believe in creating memorable dining experiences for families 
+              and friends. Our spacious venue combines the warmth of traditional dhaba hospitality 
+              with modern comfort and hygiene standards.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              With seating for just 32 guests, each evening becomes a shared celebration of 
-              culinary artistry. Our rotating menu showcases the season's finest offerings, 
-              paired with carefully selected wines from boutique vineyards.
+              Located conveniently on Delhi-Mathura Highway near Bata Flyover in Sector-11, Faridabad, 
+              we're the perfect stop for authentic North Indian cuisine. Whether it's a family celebration, 
+              casual dinner, or event hosting (10-200 guests), we've got you covered.
             </p>
             <div className="pt-4">
               <h3 className="font-sans font-medium text-foreground mb-2 uppercase tracking-wider text-sm">
-                Chef's Philosophy
+                Our Specialty
               </h3>
               <p className="text-muted-foreground italic">
-                "Every plate is a canvas, every ingredient a brushstroke in our culinary narrative."
+                "From our signature Dal Makhani to fresh Tandoori breads, every dish is crafted with authentic spices and traditional cooking methods."
               </p>
-              <p className="text-muted-foreground mt-2">
-                — Chef Marie Laurent
+              <p className="text-muted-foreground mt-4">
+                <span className="font-medium">Cuisine:</span> North Indian & Chinese | <span className="font-medium">Type:</span> Casual Dining & Dhaba
               </p>
             </div>
           </div>

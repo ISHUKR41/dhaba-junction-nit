@@ -1,7 +1,7 @@
-# Design Guidelines: Pop-Up Restaurant One-Pager
+# Design Guidelines: Dhaba Junction Faridabad
 
 ## Design Approach
-**Reference-Based Approach**: Drawing inspiration from high-end hospitality brands like Airbnb Experiences, Resy, and boutique restaurant websites. Focus on immersive food photography, sophisticated typography, and generous whitespace that lets imagery breathe.
+**Vibrant North Indian Dhaba Theme**: Drawing inspiration from authentic Indian dhaba culture with warm, earthy tones, traditional patterns, and bold typography. Focus on appetizing food photography, vibrant colors representing Indian cuisine, and a welcoming, family-friendly atmosphere.
 
 ## Core Design Elements
 

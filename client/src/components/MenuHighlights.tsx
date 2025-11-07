@@ -3,22 +3,35 @@ import platingImage from "@assets/generated_images/Plating_detail_close-up_f7c49
 
 const menuSections = {
   starters: [
-    { name: "Pan-Seared Scallops", description: "Citrus beurre blanc, microgreens", price: "$28" },
-    { name: "Burrata & Heirloom Tomatoes", description: "Basil oil, aged balsamic", price: "$18" },
-    { name: "Artisan Charcuterie Board", description: "Cured meats, aged cheeses, fig jam", price: "$24" },
-    { name: "French Onion Soup", description: "Gruyère crouton, caramelized onions", price: "$16" }
+    { name: "Paneer Tikka", description: "Marinated cottage cheese grilled in tandoor", price: "₹380" },
+    { name: "Tandoori Masala Chaap", description: "Soya chaap with tandoori spices", price: "₹340" },
+    { name: "Malai Chaap", description: "Creamy marinated soya chaap", price: "₹340" },
+    { name: "Mushroom Tikka", description: "Spiced mushrooms grilled to perfection", price: "₹340" },
+    { name: "Hara Bhara Kebab", description: "Spinach and vegetable patties", price: "₹320" }
   ],
   mains: [
-    { name: "Herb-Crusted Lamb Rack", description: "Rosemary jus, seasonal vegetables", price: "$42" },
-    { name: "Truffle Tagliatelle", description: "Black truffle cream, aged parmesan", price: "$34" },
-    { name: "Atlantic Salmon", description: "Lemon butter sauce, asparagus", price: "$36" },
-    { name: "Duck Confit", description: "Cherry reduction, roasted fingerlings", price: "$38" },
-    { name: "Wagyu Beef Tenderloin", description: "Red wine demi-glace, pommes purée", price: "$52" }
+    { name: "Dal Makhani", description: "Creamy black lentils slow-cooked with butter", price: "₹170" },
+    { name: "Paneer Butter Masala", description: "Cottage cheese in velvety tomato gravy", price: "₹219" },
+    { name: "Kadhai Paneer", description: "Paneer with bell peppers and kadhai masala", price: "₹219" },
+    { name: "Shahi Paneer", description: "Royal cottage cheese curry", price: "₹219" },
+    { name: "Palak Paneer", description: "Paneer in fresh spinach gravy", price: "₹219" },
+    { name: "Malai Kofta", description: "Cottage cheese dumplings in rich gravy", price: "₹229" },
+    { name: "Dum Aloo Kashmiri", description: "Baby potatoes in aromatic Kashmiri gravy", price: "₹219" },
+    { name: "Chana Masala", description: "Spiced chickpeas in tangy curry", price: "₹190" }
   ],
-  desserts: [
-    { name: "Chocolate Lava Cake", description: "Vanilla bean ice cream, gold leaf", price: "$14" },
-    { name: "Crème Brûlée", description: "Madagascar vanilla, fresh berries", price: "$12" },
-    { name: "Tarte Tatin", description: "Caramelized apples, crème fraîche", price: "$13" }
+  breads: [
+    { name: "Butter Naan", description: "Soft leavened bread with butter", price: "₹80" },
+    { name: "Garlic Naan", description: "Naan topped with fresh garlic", price: "₹90" },
+    { name: "Lachha Paratha", description: "Multi-layered flaky bread", price: "₹80" },
+    { name: "Butter Roti", description: "Whole wheat bread with butter", price: "₹25" },
+    { name: "Stuffed Naan", description: "Naan stuffed with choice filling", price: "₹90" },
+    { name: "Paneer Paratha", description: "Bread stuffed with spiced paneer", price: "₹120" }
+  ],
+  rice: [
+    { name: "Veg Biryani", description: "Fragrant basmati rice with vegetables", price: "₹280" },
+    { name: "Jeera Rice", description: "Cumin-flavored basmati rice", price: "₹119" },
+    { name: "Veg Pulao", description: "Aromatic rice with mixed vegetables", price: "₹95" },
+    { name: "Kashmiri Pulao", description: "Sweet pulao with dry fruits", price: "₹160" }
   ]
 };
 
@@ -27,14 +40,14 @@ export default function MenuHighlights() {
     <section className="py-20 px-4 sm:px-8 bg-card">
       <div className="max-w-6xl mx-auto">
         <h2 className="font-serif text-4xl sm:text-5xl mb-12 text-center text-foreground">
-          Complete Menu
+          Our Menu
         </h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div>
             <img 
               src={charcuterieImage} 
-              alt="Artisan charcuterie board"
+              alt="Dhaba Junction starters"
               className="w-full aspect-[4/3] object-cover rounded-lg shadow-md mb-8"
             />
           </div>
@@ -42,7 +55,7 @@ export default function MenuHighlights() {
           <div>
             <img 
               src={platingImage} 
-              alt="Chef plating detail"
+              alt="Fresh preparation"
               className="w-full aspect-[4/3] object-cover rounded-lg shadow-md mb-8"
             />
           </div>
@@ -50,7 +63,7 @@ export default function MenuHighlights() {
         
         <div className="space-y-12">
           <div>
-            <h3 className="font-serif text-3xl mb-6 text-foreground">Starters</h3>
+            <h3 className="font-serif text-3xl mb-6 text-foreground">Tandoori Starters</h3>
             <div className="space-y-4">
               {menuSections.starters.map((item, index) => (
                 <div key={index} className="flex justify-between items-start gap-4 pb-4 border-b border-border last:border-0">
@@ -65,7 +78,7 @@ export default function MenuHighlights() {
           </div>
           
           <div>
-            <h3 className="font-serif text-3xl mb-6 text-foreground">Main Courses</h3>
+            <h3 className="font-serif text-3xl mb-6 text-foreground">Main Course</h3>
             <div className="space-y-4">
               {menuSections.mains.map((item, index) => (
                 <div key={index} className="flex justify-between items-start gap-4 pb-4 border-b border-border last:border-0">
@@ -79,18 +92,35 @@ export default function MenuHighlights() {
             </div>
           </div>
           
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-foreground">Desserts</h3>
-            <div className="space-y-4">
-              {menuSections.desserts.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-4 border-b border-border last:border-0">
-                  <div className="flex-1">
-                    <h4 className="font-serif text-xl text-foreground mb-1">{item.name}</h4>
-                    <p className="text-muted-foreground">{item.description}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+              <h3 className="font-serif text-3xl mb-6 text-foreground">Fresh Breads</h3>
+              <div className="space-y-4">
+                {menuSections.breads.map((item, index) => (
+                  <div key={index} className="flex justify-between items-start gap-4 pb-4 border-b border-border last:border-0">
+                    <div className="flex-1">
+                      <h4 className="font-serif text-xl text-foreground mb-1">{item.name}</h4>
+                      <p className="text-muted-foreground text-sm">{item.description}</p>
+                    </div>
+                    <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
                   </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="font-serif text-3xl mb-6 text-foreground">Rice & Biryani</h3>
+              <div className="space-y-4">
+                {menuSections.rice.map((item, index) => (
+                  <div key={index} className="flex justify-between items-start gap-4 pb-4 border-b border-border last:border-0">
+                    <div className="flex-1">
+                      <h4 className="font-serif text-xl text-foreground mb-1">{item.name}</h4>
+                      <p className="text-muted-foreground text-sm">{item.description}</p>
+                    </div>
+                    <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
