@@ -57,32 +57,16 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   throw err;
 });
 
-// Setup production static serving for Vercel
-if (process.env.NODE_ENV === "production") {
-  try {
-    serveStatic(app);
-  } catch (err) {
-    // Fallback: serve index.html for all routes
-    const distPath = path.resolve(import.meta.dirname, "public");
-    if (fs.existsSync(distPath)) {
-      app.use(express.static(distPath));
-      app.use("*", (_req, res) => {
-        const indexPath = path.resolve(distPath, "index.html");
-        if (fs.existsSync(indexPath)) {
-          res.sendFile(indexPath);
-        } else {
-          res.status(404).send("Not found");
-        }
-      });
-    }
-  }
-}
-
 // Export app for serverless deployment (Vercel)
 export default app;
 
+// Setup production static serving for Vercel
+if (process.env.NODE_ENV === "production") {
+  serveStatic(app);
+}
+
 // Start server for local development only
-if (process.env.NODE_ENV !== "production") {
+if (!process.env.VERCEL && process.env.NODE_ENV !== "production") {
   (async () => {
     const server = await registerRoutes(app);
 
