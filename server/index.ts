@@ -53,10 +53,15 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   throw err;
 });
 
+// Handle production (Vercel serverless)
+if (process.env.NODE_ENV === "production") {
+  serveStatic(app);
+}
+
 // Export app for serverless deployment (Vercel)
 export default app;
 
-// Start server for local development
+// Start server for local development only
 if (process.env.NODE_ENV !== "production") {
   (async () => {
     const server = await registerRoutes(app);
@@ -75,10 +80,5 @@ if (process.env.NODE_ENV !== "production") {
     }, () => {
       log(`serving on port ${port}`);
     });
-  })();
-} else {
-  // Production setup
-  (async () => {
-    serveStatic(app);
   })();
 }
