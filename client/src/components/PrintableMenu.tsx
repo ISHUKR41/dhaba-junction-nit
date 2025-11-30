@@ -1,69 +1,124 @@
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
-import scallopsImage from "@assets/generated_images/Seared_scallops_appetizer_df668293.png";
-import pastaImage from "@assets/generated_images/Truffle_pasta_main_course_1d3b7711.png";
-import lambImage from "@assets/generated_images/Lamb_rack_main_course_56782b75.png";
-import dessertImage from "@assets/generated_images/Chocolate_lava_cake_dessert_4e3bfdf2.png";
-import saladImage from "@assets/generated_images/Burrata_salad_starter_4d0e97ee.png";
-import salmonImage from "@assets/generated_images/Salmon_fillet_entree_bed9fba7.png";
-import charcuterieImage from "@assets/generated_images/Charcuterie_board_f42f7164.png";
-import platingImage from "@assets/generated_images/Plating_detail_close-up_f7c49b07.png";
+import { Download, Phone } from "lucide-react";
+import { motion } from "framer-motion";
+import dalMakhaniImage from "@assets/generated_images/dal_makhani_in_copper_bowl.png";
+import paneerButterImage from "@assets/generated_images/paneer_butter_masala_dish.png";
+import paneerTikkaImage from "@assets/generated_images/tandoori_paneer_tikka_platter.png";
+import biryaniImage from "@assets/generated_images/vegetable_biryani_in_handi.png";
+import naanImage from "@assets/generated_images/hot_butter_naan_bread.png";
+import tandooriPlatterImage from "@assets/generated_images/assorted_tandoori_platter.png";
+import gulabJamunImage from "@assets/generated_images/gulab_jamun_dessert.png";
+import choleBhatureImage from "@assets/generated_images/chole_bhature_combo.png";
 
 const dishImages = [
-  { id: 1, image: lambImage, name: "Dal Makhani" },
-  { id: 2, image: scallopsImage, name: "Paneer Butter Masala" },
-  { id: 3, image: pastaImage, name: "Kadhai Paneer" },
-  { id: 4, image: dessertImage, name: "Malai Kofta" },
-  { id: 5, image: saladImage, name: "Tandoori Chaap" },
-  { id: 6, image: salmonImage, name: "Veg Biryani" },
-  { id: 7, image: charcuterieImage, name: "Tandoori Platter" },
-  { id: 8, image: platingImage, name: "Fresh Naan" }
+  { id: 1, image: dalMakhaniImage, name: "Dal Makhani" },
+  { id: 2, image: paneerButterImage, name: "Paneer Butter Masala" },
+  { id: 3, image: paneerTikkaImage, name: "Paneer Tikka" },
+  { id: 4, image: biryaniImage, name: "Veg Biryani" },
+  { id: 5, image: naanImage, name: "Fresh Butter Naan" },
+  { id: 6, image: tandooriPlatterImage, name: "Tandoori Platter" },
+  { id: 7, image: gulabJamunImage, name: "Gulab Jamun" },
+  { id: 8, image: choleBhatureImage, name: "Chole Bhature" }
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4 }
+  }
+};
 
 export default function PrintableMenu() {
   const handleDownload = () => {
-    console.log('Download menu clicked - would generate PDF');
     window.print();
   };
 
+  const handleCall = () => {
+    window.location.href = 'tel:+919811824555';
+  };
+
   return (
-    <section className="py-20 px-4 sm:px-8">
+    <section id="gallery" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="font-serif text-4xl sm:text-5xl mb-4 text-foreground">
-            View Complete Menu
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8 sm:mb-12"
+        >
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 text-foreground">
+            Our Dishes Gallery
           </h2>
-          <p className="text-muted-foreground mb-8">
-            Download or print our full menu with all dishes and prices
+          <p className="text-muted-foreground mb-6 sm:mb-8 text-sm sm:text-base">
+            Browse our authentic North Indian delicacies
           </p>
-          <Button 
-            size="lg"
-            onClick={handleDownload}
-            data-testid="button-download-menu"
-            className="gap-2"
-          >
-            <Download className="w-5 h-5" />
-            Print Menu
-          </Button>
-        </div>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <Button 
+              size="lg"
+              onClick={handleDownload}
+              data-testid="button-download-menu"
+              className="gap-2 w-full sm:w-auto"
+            >
+              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+              Print Menu
+            </Button>
+            <Button 
+              size="lg"
+              variant="outline"
+              onClick={handleCall}
+              data-testid="button-call-order"
+              className="gap-2 w-full sm:w-auto"
+            >
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+              Call to Order
+            </Button>
+          </div>
+        </motion.div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" id="printable-menu">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+          id="printable-menu"
+        >
           {dishImages.map((dish) => (
-            <div key={dish.id} className="group">
-              <div className="aspect-square overflow-hidden rounded-lg shadow-md">
+            <motion.div
+              key={dish.id}
+              variants={itemVariants}
+              className="group"
+            >
+              <div className="aspect-square overflow-hidden rounded-lg sm:rounded-xl shadow-md hover-elevate">
                 <img 
                   src={dish.image} 
                   alt={dish.name}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
-              <p className="text-center text-sm text-muted-foreground mt-2">{dish.name}</p>
-            </div>
+              <p className="text-center text-xs sm:text-sm text-muted-foreground mt-2 font-medium">
+                {dish.name}
+              </p>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
         
-        <div className="mt-12 text-center text-sm text-muted-foreground print:block hidden">
-          <p className="font-serif text-2xl mb-2">Dhaba Junction</p>
+        <div className="mt-10 sm:mt-12 text-center text-xs sm:text-sm text-muted-foreground print:block hidden">
+          <p className="font-serif text-xl sm:text-2xl mb-2">Dhaba Junction</p>
           <p>A-8, Sector-11, Near Bata Flyover, Mathura Road, Faridabad 121001</p>
           <p>Open Daily: 11:00 AM - 1:30 AM | Phone: +91 98118 24555</p>
         </div>

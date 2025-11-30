@@ -1,5 +1,10 @@
-import charcuterieImage from "@assets/generated_images/Charcuterie_board_f42f7164.png";
-import platingImage from "@assets/generated_images/Plating_detail_close-up_f7c49b07.png";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronUp, Flame } from "lucide-react";
+import dalMakhaniImage from "@assets/generated_images/dal_makhani_in_copper_bowl.png";
+import paneerButterImage from "@assets/generated_images/paneer_butter_masala_dish.png";
 
 const menuData = {
   combos: {
@@ -155,237 +160,183 @@ const menuData = {
   ]
 };
 
-export default function MenuHighlights() {
+type MenuSection = {
+  key: string;
+  title: string;
+  data: Array<{ name: string; description: string; price: string; spicy?: boolean }>;
+  columns?: number;
+};
+
+const menuSections: MenuSection[] = [
+  { key: "combos", title: "Combo Deals", data: [...menuData.combos.individual, ...menuData.combos.superDeals] },
+  { key: "soups", title: "Soups", data: menuData.soups },
+  { key: "starters", title: "Tandoori Starters", data: menuData.starters },
+  { key: "vegMainCourse", title: "Vegetable Main Course", data: menuData.vegMainCourse },
+  { key: "paneerMainCourse", title: "Paneer & Mushroom", data: menuData.paneerMainCourse },
+  { key: "breads", title: "Fresh Tandoori Breads", data: menuData.breads, columns: 3 },
+  { key: "rice", title: "Rice & Biryani", data: menuData.rice },
+  { key: "noodles", title: "Noodles & Fried Rice", data: menuData.noodles },
+  { key: "chinese", title: "Chinese Dishes", data: menuData.chinese },
+  { key: "accompaniments", title: "Accompaniments", data: menuData.accompaniments, columns: 3 },
+  { key: "desserts", title: "Desserts", data: menuData.desserts },
+];
+
+function MenuSection({ section, isExpanded, onToggle }: { section: MenuSection; isExpanded: boolean; onToggle: () => void }) {
+  const gridCols = section.columns === 3 
+    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" 
+    : "grid-cols-1 md:grid-cols-2";
+  
   return (
-    <section className="py-20 px-4 sm:px-8 bg-card">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between font-serif text-xl sm:text-2xl md:text-3xl mb-4 sm:mb-6 text-primary border-b-2 border-primary/20 pb-2 hover:text-primary/80 transition-colors text-left"
+        data-testid={`button-toggle-${section.key}`}
+      >
+        <span>{section.title}</span>
+        {isExpanded ? <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6" /> : <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />}
+      </button>
+      
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className={`grid ${gridCols} gap-2 sm:gap-3`}>
+              {section.data.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-start gap-2 sm:gap-4 py-2 sm:py-3 px-2 sm:px-3 rounded-lg hover:bg-accent/50 transition-colors"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h5 className="font-sans font-medium text-foreground text-sm sm:text-base">{item.name}</h5>
+                      {item.spicy && <Flame className="w-3 h-3 sm:w-4 sm:h-4 text-destructive flex-shrink-0" />}
+                    </div>
+                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">{item.description}</p>
+                  </div>
+                  <span className="font-sans font-semibold text-primary whitespace-nowrap text-sm sm:text-base">
+                    {item.price}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+export default function MenuHighlights() {
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["combos", "starters", "paneerMainCourse"]));
+  const [showAll, setShowAll] = useState(false);
+
+  const toggleSection = (key: string) => {
+    setExpandedSections(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
+      return next;
+    });
+  };
+
+  const displayedSections = showAll ? menuSections : menuSections.slice(0, 5);
+
+  return (
+    <section id="menu" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-card">
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-serif text-4xl sm:text-5xl mb-4 text-center text-foreground">
-          Complete Menu
-        </h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Authentic North Indian cuisine with Chinese favorites - All dishes prepared fresh with love
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8 sm:mb-12"
+        >
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 text-foreground">
+            Complete Menu
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
+            Authentic North Indian cuisine with Chinese favorites - All dishes prepared fresh with love
+          </p>
+        </motion.div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <img 
-            src={charcuterieImage} 
-            alt="Dhaba Junction dishes"
-            className="w-full aspect-[4/3] object-cover rounded-lg shadow-md"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-16">
+          <motion.img 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            src={dalMakhaniImage} 
+            alt="Dhaba Junction Dal Makhani"
+            className="w-full aspect-square sm:aspect-[4/3] object-cover rounded-xl shadow-lg"
+            loading="lazy"
           />
-          <img 
-            src={platingImage} 
-            alt="Fresh preparation"
-            className="w-full aspect-[4/3] object-cover rounded-lg shadow-md"
+          <motion.img 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            src={paneerButterImage} 
+            alt="Paneer Butter Masala"
+            className="w-full aspect-square sm:aspect-[4/3] object-cover rounded-xl shadow-lg"
+            loading="lazy"
           />
         </div>
 
-        <div className="space-y-16">
-          {/* Combos */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Combo Deals</h3>
-            <div className="mb-8">
-              <h4 className="font-serif text-xl mb-4 text-foreground">Individual Combos</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {menuData.combos.individual.map((item, index) => (
-                  <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                    <div className="flex-1">
-                      <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                    <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="font-serif text-xl mb-4 text-foreground">Super Combo Deals</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {menuData.combos.superDeals.map((item, index) => (
-                  <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                    <div className="flex-1">
-                      <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                    <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Soups */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Soups</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.soups.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Starters */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Tandoori Starters</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.starters.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Veg Main Course */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Vegetable Main Course</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.vegMainCourse.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">
-                      {item.name} {item.spicy && <span className="text-xs text-destructive ml-1">🌶️</span>}
-                    </h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Paneer Main Course */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Paneer & Mushroom Main Course</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.paneerMainCourse.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">
-                      {item.name} {item.spicy && <span className="text-xs text-destructive ml-1">🌶️</span>}
-                    </h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Breads */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Fresh Tandoori Breads</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {menuData.breads.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-xs text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap text-sm">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Rice & Biryani */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Rice & Biryani</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.rice.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Noodles & Fried Rice */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Noodles & Fried Rice</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.noodles.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Chinese Dishes */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Chinese Dishes</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.chinese.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Accompaniments */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Accompaniments</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {menuData.accompaniments.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-xs text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap text-sm">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Desserts */}
-          <div>
-            <h3 className="font-serif text-3xl mb-6 text-primary border-b-2 border-primary/20 pb-2">Desserts</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {menuData.desserts.map((item, index) => (
-                <div key={index} className="flex justify-between items-start gap-4 pb-3 border-b border-border">
-                  <div className="flex-1">
-                    <h5 className="font-sans font-medium text-foreground">{item.name}</h5>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-medium text-primary whitespace-nowrap">{item.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="space-y-8 sm:space-y-12">
+          {displayedSections.map((section) => (
+            <MenuSection
+              key={section.key}
+              section={section}
+              isExpanded={expandedSections.has(section.key)}
+              onToggle={() => toggleSection(section.key)}
+            />
+          ))}
         </div>
 
-        <div className="mt-16 text-center p-8 bg-primary/5 rounded-lg">
-          <p className="text-lg text-foreground font-serif mb-2">
+        {!showAll && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-8 sm:mt-12 text-center"
+          >
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setShowAll(true)}
+              data-testid="button-show-full-menu"
+            >
+              Show Full Menu
+            </Button>
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 sm:mt-16 text-center p-6 sm:p-8 bg-primary/5 rounded-xl"
+        >
+          <p className="text-base sm:text-lg text-foreground font-serif mb-2">
             All prices are inclusive of taxes
           </p>
-          <p className="text-muted-foreground">
-            For bulk orders or party bookings, please call +91 98118 24555
+          <p className="text-sm sm:text-base text-muted-foreground">
+            For bulk orders or party bookings, please call{" "}
+            <a href="tel:+919811824555" className="text-primary font-medium">+91 98118 24555</a>
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

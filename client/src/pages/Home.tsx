@@ -1,3 +1,4 @@
+import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import PopUpInfo from "@/components/PopUpInfo";
 import FeaturedDishes from "@/components/FeaturedDishes";
@@ -9,7 +10,8 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen scroll-smooth">
+      <Navigation />
       <Hero />
       <PopUpInfo />
       <FeaturedDishes />
