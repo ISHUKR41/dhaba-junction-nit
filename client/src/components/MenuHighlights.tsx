@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Flame } from "lucide-react";
+import { Flame, Utensils, Soup, ChefHat, Wheat, Coffee, UtensilsCrossed } from "lucide-react";
 import dalMakhaniImage from "@assets/generated_images/dal_makhani_in_copper_bowl.png";
 import paneerButterImage from "@assets/generated_images/paneer_butter_masala_dish.png";
 
@@ -160,182 +158,201 @@ const menuData = {
   ]
 };
 
-type MenuSection = {
-  key: string;
-  title: string;
-  data: Array<{ name: string; description: string; price: string; spicy?: boolean }>;
-  columns?: number;
+type MenuItem = {
+  name: string;
+  description: string;
+  price: string;
+  spicy?: boolean;
 };
 
-const menuSections: MenuSection[] = [
-  { key: "combos", title: "Combo Deals", data: [...menuData.combos.individual, ...menuData.combos.superDeals] },
-  { key: "soups", title: "Soups", data: menuData.soups },
-  { key: "starters", title: "Tandoori Starters", data: menuData.starters },
-  { key: "vegMainCourse", title: "Vegetable Main Course", data: menuData.vegMainCourse },
-  { key: "paneerMainCourse", title: "Paneer & Mushroom", data: menuData.paneerMainCourse },
-  { key: "breads", title: "Fresh Tandoori Breads", data: menuData.breads, columns: 3 },
-  { key: "rice", title: "Rice & Biryani", data: menuData.rice },
-  { key: "noodles", title: "Noodles & Fried Rice", data: menuData.noodles },
-  { key: "chinese", title: "Chinese Dishes", data: menuData.chinese },
-  { key: "accompaniments", title: "Accompaniments", data: menuData.accompaniments, columns: 3 },
-  { key: "desserts", title: "Desserts", data: menuData.desserts },
+type MenuSectionType = {
+  key: string;
+  title: string;
+  icon: any;
+  data: MenuItem[];
+  highlight?: boolean;
+};
+
+const menuSections: MenuSectionType[] = [
+  { key: "combos", title: "Combo Deals", icon: Utensils, data: [...menuData.combos.individual, ...menuData.combos.superDeals], highlight: true },
+  { key: "soups", title: "Soups", icon: Soup, data: menuData.soups },
+  { key: "starters", title: "Tandoori Starters", icon: ChefHat, data: menuData.starters, highlight: true },
+  { key: "vegMainCourse", title: "Vegetable Main Course", icon: Utensils, data: menuData.vegMainCourse },
+  { key: "paneerMainCourse", title: "Paneer & Mushroom", icon: ChefHat, data: menuData.paneerMainCourse, highlight: true },
+  { key: "breads", title: "Fresh Tandoori Breads", icon: Wheat, data: menuData.breads },
+  { key: "rice", title: "Rice & Biryani", icon: Utensils, data: menuData.rice },
+  { key: "noodles", title: "Noodles & Fried Rice", icon: UtensilsCrossed, data: menuData.noodles },
+  { key: "chinese", title: "Chinese Dishes", icon: UtensilsCrossed, data: menuData.chinese },
+  { key: "accompaniments", title: "Accompaniments", icon: Utensils, data: menuData.accompaniments },
+  { key: "desserts", title: "Desserts", icon: Coffee, data: menuData.desserts },
 ];
 
-function MenuSection({ section, isExpanded, onToggle }: { section: MenuSection; isExpanded: boolean; onToggle: () => void }) {
-  const gridCols = section.columns === 3 
-    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" 
-    : "grid-cols-1 md:grid-cols-2";
+function MenuCard({ item, index }: { item: MenuItem; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.3, delay: index * 0.02 }}
+      className="flex justify-between items-start gap-3 py-3 px-3 sm:px-4 rounded-lg bg-background/50 hover:bg-accent/30 transition-all duration-200 border border-border/30"
+      data-testid={`menu-item-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+    >
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h4 className="font-medium text-foreground text-sm sm:text-base leading-tight">
+            {item.name}
+          </h4>
+          {item.spicy && (
+            <Badge variant="destructive" className="text-[10px] px-1.5 py-0 h-4">
+              <Flame className="w-2.5 h-2.5 mr-0.5" />
+              Spicy
+            </Badge>
+          )}
+        </div>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 line-clamp-2">
+          {item.description}
+        </p>
+      </div>
+      <span className="font-semibold text-primary whitespace-nowrap text-sm sm:text-base bg-primary/10 px-2 py-1 rounded">
+        {item.price}
+      </span>
+    </motion.div>
+  );
+}
+
+function MenuSection({ section, index }: { section: MenuSectionType; index: number }) {
+  const Icon = section.icon;
   
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className={`rounded-2xl overflow-hidden ${section.highlight ? 'bg-card border-2 border-primary/20' : 'bg-card/50 border border-border/50'}`}
     >
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between font-serif text-xl sm:text-2xl md:text-3xl mb-4 sm:mb-6 text-primary border-b-2 border-primary/20 pb-2 hover:text-primary/80 transition-colors text-left"
-        data-testid={`button-toggle-${section.key}`}
-      >
-        <span>{section.title}</span>
-        {isExpanded ? <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6" /> : <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />}
-      </button>
+      <div className={`p-4 sm:p-6 ${section.highlight ? 'bg-primary/5' : 'bg-muted/30'}`}>
+        <div className="flex items-center gap-3">
+          <div className={`p-2 sm:p-3 rounded-xl ${section.highlight ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+            <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+          </div>
+          <div>
+            <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-foreground">
+              {section.title}
+            </h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              {section.data.length} items
+            </p>
+          </div>
+        </div>
+      </div>
       
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className={`grid ${gridCols} gap-2 sm:gap-3`}>
-              {section.data.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-start gap-2 sm:gap-4 py-2 sm:py-3 px-2 sm:px-3 rounded-lg hover:bg-accent/50 transition-colors"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h5 className="font-sans font-medium text-foreground text-sm sm:text-base">{item.name}</h5>
-                      {item.spicy && <Flame className="w-3 h-3 sm:w-4 sm:h-4 text-destructive flex-shrink-0" />}
-                    </div>
-                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">{item.description}</p>
-                  </div>
-                  <span className="font-sans font-semibold text-primary whitespace-nowrap text-sm sm:text-base">
-                    {item.price}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="p-3 sm:p-4 md:p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
+          {section.data.map((item, idx) => (
+            <MenuCard key={idx} item={item} index={idx} />
+          ))}
+        </div>
+      </div>
     </motion.div>
   );
 }
 
 export default function MenuHighlights() {
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["combos", "starters", "paneerMainCourse"]));
-  const [showAll, setShowAll] = useState(false);
-
-  const toggleSection = (key: string) => {
-    setExpandedSections(prev => {
-      const next = new Set(prev);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-      }
-      return next;
-    });
-  };
-
-  const displayedSections = showAll ? menuSections : menuSections.slice(0, 5);
-
   return (
-    <section id="menu" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-card">
-      <div className="max-w-6xl mx-auto">
+    <section id="menu" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-muted/20">
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-12"
+          className="text-center mb-10 sm:mb-16"
         >
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 text-foreground">
-            Complete Menu
+          <Badge variant="secondary" className="mb-4 text-xs sm:text-sm">
+            Authentic North Indian Cuisine
+          </Badge>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 sm:mb-6 text-foreground">
+            Our Complete Menu
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
-            Authentic North Indian cuisine with Chinese favorites - All dishes prepared fresh with love
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
+            Discover our wide selection of authentic North Indian dishes and Chinese favorites - 
+            all prepared fresh with love and traditional recipes
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-16">
-          <motion.img 
-            initial={{ opacity: 0, x: -20 }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12 sm:mb-16">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            src={dalMakhaniImage} 
-            alt="Dhaba Junction Dal Makhani"
-            className="w-full aspect-square sm:aspect-[4/3] object-cover rounded-xl shadow-lg"
-            loading="lazy"
-          />
-          <motion.img 
-            initial={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.6 }}
+            className="relative rounded-2xl overflow-hidden shadow-xl"
+          >
+            <img 
+              src={dalMakhaniImage} 
+              alt="Dhaba Junction Dal Makhani"
+              className="w-full h-48 sm:h-64 md:h-80 object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 text-white">
+              <h3 className="font-serif text-lg sm:text-xl md:text-2xl">Dal Makhani</h3>
+              <p className="text-xs sm:text-sm opacity-90">Our Signature Dish</p>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            src={paneerButterImage} 
-            alt="Paneer Butter Masala"
-            className="w-full aspect-square sm:aspect-[4/3] object-cover rounded-xl shadow-lg"
-            loading="lazy"
-          />
+            transition={{ duration: 0.6 }}
+            className="relative rounded-2xl overflow-hidden shadow-xl"
+          >
+            <img 
+              src={paneerButterImage} 
+              alt="Paneer Butter Masala"
+              className="w-full h-48 sm:h-64 md:h-80 object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 text-white">
+              <h3 className="font-serif text-lg sm:text-xl md:text-2xl">Paneer Butter Masala</h3>
+              <p className="text-xs sm:text-sm opacity-90">Customer Favorite</p>
+            </div>
+          </motion.div>
         </div>
 
-        <div className="space-y-8 sm:space-y-12">
-          {displayedSections.map((section) => (
-            <MenuSection
-              key={section.key}
-              section={section}
-              isExpanded={expandedSections.has(section.key)}
-              onToggle={() => toggleSection(section.key)}
-            />
+        <div className="space-y-6 sm:space-y-8">
+          {menuSections.map((section, index) => (
+            <MenuSection key={section.key} section={section} index={index} />
           ))}
         </div>
-
-        {!showAll && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-8 sm:mt-12 text-center"
-          >
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => setShowAll(true)}
-              data-testid="button-show-full-menu"
-            >
-              Show Full Menu
-            </Button>
-          </motion.div>
-        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 sm:mt-16 text-center p-6 sm:p-8 bg-primary/5 rounded-xl"
+          className="mt-12 sm:mt-16 text-center p-6 sm:p-8 md:p-10 bg-card rounded-2xl border-2 border-primary/20 shadow-lg"
         >
-          <p className="text-base sm:text-lg text-foreground font-serif mb-2">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-primary/10 rounded-full">
+              <Utensils className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+            </div>
+          </div>
+          <p className="text-lg sm:text-xl md:text-2xl text-foreground font-serif mb-3">
             All prices are inclusive of taxes
           </p>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            For bulk orders or party bookings, please call{" "}
-            <a href="tel:+919811824555" className="text-primary font-medium">+91 98118 24555</a>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4">
+            For bulk orders or party bookings, please contact us
           </p>
+          <a 
+            href="tel:+919811824555" 
+            className="inline-flex items-center gap-2 text-primary font-semibold text-base sm:text-lg hover:underline"
+            data-testid="link-call-order"
+          >
+            <span>+91 98118 24555</span>
+          </a>
         </motion.div>
       </div>
     </section>
